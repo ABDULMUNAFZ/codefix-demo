@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 
-_VERSION_RE = re.compile(r"^\s*v?(\d+(?:\.\d+)*)\s*$")
+_VERSION_RE = re.compile(r"^\s*v?(\d+(?:\.\d+)*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?\s*$")
 _REQUIREMENT_RE = re.compile(r"^\s*(==|!=|>=|<=|>|<)\s*(\S+)\s*$")
 
 
@@ -13,7 +13,7 @@ class InvalidVersion(ValueError):
 
 
 def parse_version(text: str) -> tuple[str, ...]:
-    """Parse "1.2.3" (optionally prefixed with "v") into its release segments."""
+    """Parse a release, optionally with a ``v`` prefix or prerelease suffix."""
     match = _VERSION_RE.match(text)
     if match is None:
         raise InvalidVersion(f"invalid version: {text!r}")
